@@ -14,7 +14,7 @@ A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day 
 
 3. Run a docker container:
     ```
-    docker-compose up
+    docker compose up
     ```
 
 
