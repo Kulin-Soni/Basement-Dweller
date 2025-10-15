@@ -29,7 +29,7 @@ A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day 
 
 3. Install all the dependencies:
     ```
-    pip install -r requirements.txt
+    pip install -r src/requirements.txt
     ```
 
 4. Install chromium:

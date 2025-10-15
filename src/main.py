@@ -5,11 +5,13 @@ from playwright.async_api import async_playwright, BrowserContext, Page
 from threadFunction import threadFn
 from random import randint
 import asyncio
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 # Constants -
 REDDIT_HOME = "https://www.reddit.com"
-USERNAME = "" # ENV SETUP REMAINING
-PASSWORD = "" # ENV SETUP REMAINING
+USERNAME = os.getenv("EMAIL", "")
+PASSWORD = os.getenv("PASS", "")
 DAY_IN_SECONDS = 24 * 60 * 60
 #
 
@@ -18,11 +20,10 @@ async def launchUpvoteJob():
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
         ctx = await browser.new_context()   
-        # while True:
-        #     delay = randint(DAY_IN_SECONDS + 3600, DAY_IN_SECONDS*2 - 3600)
-        #     await upvotePost(browser=ctx)
-        #     sleep(delay)
-        await upvotePost(browser=ctx)
+        while True:
+            delay = randint(DAY_IN_SECONDS + 3600, DAY_IN_SECONDS*2 - 3600)
+            await upvotePost(browser=ctx)
+            sleep(delay)
 #
 
 # Deep search utility function -
