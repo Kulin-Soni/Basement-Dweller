@@ -1,9 +1,10 @@
 FROM python:3.12-slim
 
+WORKDIR /src
+
 COPY src/requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 RUN playwright install --with-deps chromium
 
-WORKDIR /src
-COPY /src /src
+COPY src/ .
 CMD ["python", "main.py"]
