@@ -1,6 +1,8 @@
 # Basement Dweller
 A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day without you doing anything!
 
+**⚠️ For educational and demonstrative purposes only. Any losses or problems with your account that may arise from using it are your responsibility. Consider using a different account if you intend to run it, as doing so could result in account getting banned.**
+
 ## Setup (with Docker)
 
 ### Requirements
