@@ -46,7 +46,7 @@ A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day 
 
 ## Environment Variables
 Go to `.env` file and update all the variables as:
-- **EMAIL**: Your reddit account email or password.
+- **EMAIL**: Your reddit account email or username.
 - **PASSWORD**: Your reddit account password.
 
 ```
