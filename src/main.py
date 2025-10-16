@@ -8,6 +8,7 @@ import asyncio
 import os
 from dotenv import load_dotenv
 load_dotenv()
+
 # Constants -
 REDDIT_HOME = "https://www.reddit.com"
 USERNAME = os.getenv("EMAIL", "")
@@ -21,8 +22,10 @@ async def launchUpvoteJob():
         browser = await p.chromium.launch(headless=True)
         ctx = await browser.new_context()   
         while True:
+            print("[LOG] RUNNING SCHEDULED JOB")
             delay = randint(DAY_IN_SECONDS + 3600, DAY_IN_SECONDS*2 - 3600)
-            await upvotePost(browser=ctx)
+            job = await upvotePost(browser=ctx)
+            if not job: break
             sleep(delay)
 #
 
@@ -52,14 +55,17 @@ async def loginReddit(browser: BrowserContext):
     page = await browser.new_page()
     await page.goto(f"{REDDIT_HOME}/login")
 
+    sleep(3)
+
     # Query all the necessary elements -
     userNameInput = await deepSearch(page=page, query="input[name='username']")
     passwordInput = await deepSearch(page=page, query="input[name='password']")
     submitBtn = await deepSearch(page=page, query="button.login")
     if userNameInput and passwordInput and submitBtn:
+
         await userNameInput.fill(USERNAME)
         await passwordInput.fill(PASSWORD)
-        sleep(1)
+        sleep(.5)
         await submitBtn.click()
 
         sleep(3)
@@ -70,13 +76,13 @@ async def loginReddit(browser: BrowserContext):
             await page.close()
             return False
         
-        print("[LOG] LOGGED IN")
+        print("[LOG] LOGGED INTO ACCOUNT")
         await page.close()
         return True
     
 
     # If couldn't track/query elements
-    print("[LOG] COULDN'T TRACK ELEMENTS")
+    print("[ERR] COULDN'T TRACK ELEMENTS")
     await page.close()
     return False
 #
@@ -86,7 +92,10 @@ async def upvotePost(browser: BrowserContext):
     '''Up-votes the first post on **Reddit**'s home page.'''
     # Open Reddit -
     page = await browser.new_page()
-    async def close(): await page.close()
+    async def close(ret: bool):
+        await page.close()
+        print("[LOG] SCHEDULED JOB FINISHED\n")
+        return ret
     await page.goto(REDDIT_HOME)
 
     await page.reload()
@@ -95,7 +104,7 @@ async def upvotePost(browser: BrowserContext):
     if await loginBtn.count() > 0:
         loggedIn = await loginReddit(browser)
         if not loggedIn:
-            return await close()
+            return await close(False)
     
     # After logged in -
     await page.reload()
@@ -104,9 +113,10 @@ async def upvotePost(browser: BrowserContext):
         await upvoteBtn.click() # Click the upvote button
         print("[LOG] UPVOTED A POST")
     
-    return await close()
+    return await close(True)
 #
 
 
 if __name__ == "__main__":
+    print("[LOG] LAUNCHING INITIAL SETUP")
     threadFn(asyncio.run(launchUpvoteJob()))  
