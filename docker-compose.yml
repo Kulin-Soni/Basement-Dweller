@@ -1,5 +1,8 @@
 services:
   app:
-    build: .
+    container_name: basement_dweller
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
