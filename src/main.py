@@ -18,7 +18,7 @@ DAY_IN_SECONDS = 24 * 60 * 60
 # Launcher for upvote job -
 async def launchUpvoteJob():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)
+        browser = await p.chromium.launch(headless=True)
         ctx = await browser.new_context()   
         while True:
             delay = randint(DAY_IN_SECONDS + 3600, DAY_IN_SECONDS*2 - 3600)
