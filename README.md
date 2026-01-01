@@ -12,9 +12,10 @@ A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day 
 ### Steps
 1. Setup environment variables following [Environment Variables](#environment-variables) guide.
 
-3. Run a docker container:
+3. Build & run a docker container:
     ```
-    docker compose up
+    docker build -t image_name .
+    docker run --env-file .env image_name
     ```
 
 
@@ -29,19 +30,11 @@ A script that keeps your **Reddit Streak 🔥** alive ... yup it runs every day 
 
 2. Setup environment variables following [Environment Variables](#environment-variables) guide.
 
-3. Install all the dependencies:
+3. Run the following commands:
     ```
-    pip install -r src/requirements.txt
-    ```
-
-4. Install chromium:
-    ```
-    playwright install --with-deps chromium
-    ```
-
-5. Run the script:
-    ```
-    python src/main.py
+    pip install -r src/requirements.txt # Installs necessary dependencies.
+    playwright install --with-deps chromium # Installs chromium.
+    python src/main.py # Runs the script.
     ```
 
 ## Environment Variables
