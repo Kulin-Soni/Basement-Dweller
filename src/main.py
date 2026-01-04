@@ -19,7 +19,7 @@ DAY_IN_SECONDS = 24 * 60 * 60
 # Gives a random time in seconds after the current day passes by.
 async def getDelay():
     day_left = (DAY_IN_SECONDS) - int(time()) % (DAY_IN_SECONDS)
-    delay = randint(DAY_IN_SECONDS + 3600, DAY_IN_SECONDS*2 - 3600) + day_left
+    delay = randint(3600, DAY_IN_SECONDS - 3600) + day_left
     return delay
 
 
