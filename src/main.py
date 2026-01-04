@@ -30,9 +30,11 @@ async def launchUpvoteJob():
         ctx = await browser.new_context()   
         while True:
             print("[LOG] RUNNING SCHEDULED JOB")
-            delay = getDelay()
             job = await upvotePost(browser=ctx)
-            if not job: break
+            if not job: break # If there's some issue with the upvote work, it must be resolved first instead of wasting the resources.
+
+            # The delay must be calculated after the job has been done, if calculated before, it may result in time mismatch after some days.
+            delay = getDelay()
             sleep(delay) # type: ignore if you're using typings.
 #
 
